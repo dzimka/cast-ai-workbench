@@ -1,0 +1,16 @@
+{
+    "editor.trimAutoWhitespace": true,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "[python]": {
+      "editor.formatOnSave": true,
+      "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit",
+        "source.organizeImports": "explicit"
+      },
+      "editor.defaultFormatter": "charliermarsh.ruff",
+      "editor.formatOnSaveMode": "file"
+    },
+    "ruff.lineLength": 120,
+    "ruff.lint.select": ["C", "E", "F", "W"]
+  }

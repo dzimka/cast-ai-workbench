@@ -1,1 +1,8 @@
+fastapi
+gradio
+langchain
+langchain-chroma
+langchain-ollama
+langchain-community
+transformers[torch]
 jupyterlab>3.0

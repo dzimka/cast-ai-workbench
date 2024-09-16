@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "ms-azuretools.vscode-docker",
+        "Postman.postman-for-vscode",
+        "ms-python.vscode-pylance",
+        "ms-python.python",
+        "ms-python.debugpy",
+        "charliermarsh.ruff"
+    ]
+}
