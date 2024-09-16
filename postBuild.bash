@@ -7,7 +7,3 @@
 # add data folder
 sudo -E mkdir -p /data
 sudo -E chown workbench:workbench /data
-
-# Grant user sudo access
-# echo "workbench ALL=(ALL) NOPASSWD:ALL" | \
-#     sudo tee /etc/sudoers.d/00-workbench > /dev/null
