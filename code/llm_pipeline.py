@@ -28,6 +28,15 @@ Question: {question}
 
 
 def load_documents(path: str) -> List[Document]:
+    """
+    Loads documents on the path and splits them to fragments using MarkdownHeaderTextSplitter.
+
+    Args:
+        path (str): Path to the directory containing the files.
+
+    Returns:
+        List[Document]: List of documents (fragments) extracted from the files.
+    """
     file_paths = [str(file) for file in Path(path).iterdir()]
     logger.info(f"Detected {len(file_paths)} files in the path: {path}")
     splitter = MarkdownHeaderTextSplitter(headers_to_split_on=[("#", "Header 1")])
@@ -41,10 +50,30 @@ def load_documents(path: str) -> List[Document]:
 
 
 def format_docs(docs: List[Document]):
+    """
+    Formats the documents to a string representation.
+
+    Args:
+        docs (List[Document]): List of documents to format.
+
+    Returns:
+        str: Formatted string representation of the documents.
+    """
     return "\n\n".join(doc.page_content for doc in docs)
 
 
 def generate_script(topics: str, fragments: List[Document]) -> str:
+    """
+    Generates the podcast script based on the topics and fragments.
+
+    Args:
+        topics (str): Topics to generate the script for.
+        fragments (List[Document]): List of documents (fragments) to use for the script.
+
+    Returns:
+        str: Generated podcast script.
+    """
+    logger.info("Preparing the LLM pipeline")
     vectorstore = Chroma.from_documents(documents=fragments, embedding=cast_config.get_llm_embed())
     retriever = vectorstore.as_retriever()
     custom_rag_prompt = PromptTemplate.from_template(PROMPT_TEMPLATE)

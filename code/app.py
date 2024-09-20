@@ -13,11 +13,34 @@ logger.info("Starting the application")
 
 
 def create_script(topics: str):
+    """
+    Creates a script based on the given topics of interest.
+
+    This function loads documents from a predefined data path and generates
+    a script using the provided topics.
+
+    Args:
+        topics (str): A string containing the topics of interest.
+
+    Returns:
+        str: The generated script based on the input topics.
+    """
     fragments = load_documents(cast_config.data_path)
     return generate_script(topics, fragments)
 
 
 def create_podcast(script: str):
+    """
+    Creates an audio podcast based on the given script.
+
+    This function generates an audio podcast using the provided script.
+
+    Args:
+        script (str): The script to be used for generating the podcast.
+
+    Returns:
+        str: The path to the generated audio podcast.
+    """
     return generate_podcast(script)
 
 
