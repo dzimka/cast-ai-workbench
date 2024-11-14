@@ -4,10 +4,4 @@
 #
 # Note: This file may be removed if you don't need to use it
 
-apt-get update
-
 pip install --upgrade pip
-
-# curl -LsSf https://astral.sh/uv/install.sh | sh
-# source $HOME/.local/bin/env
-# uv pip install --system -r requirements.txt

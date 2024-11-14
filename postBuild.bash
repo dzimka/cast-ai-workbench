@@ -4,16 +4,8 @@
 #
 # Note: This file may be removed if you don't need to use it
 
-# install Ollama
-curl -fsSL https://ollama.com/install.sh | sh
-
-# pre-fetch the required models
-# LLM: llama3.2:1b
-ollama pull $CAST_AI_LLM_MODEL
-
-# TTS: SunoAI/Bark
-python3 -c "from transformers import BarkModel;model = BarkModel.from_pretrained('suno/bark-small')"
-
 # add data folder
 # sudo -E mkdir -p /data
 # sudo -E chown workbench:workbench /data
+
+curl -fsSL https://ollama.com/install.sh | sh

@@ -23,15 +23,15 @@ layout:
 environment:
   base:
     registry: docker.io
-    image: python:3.11-slim
+    image: pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime
     build_timestamp: "20241113165652"
     name: Python 3.11 [slim]
     supported_architectures: []
-    cuda_version: "12"
+    cuda_version: "12.4"
     description: Base Python 3.11 bookworm slim image
     entrypoint_script: ""
     labels:
-    - debian
+    - ubuntu
     - python3
     apps: []
     programming_languages:
@@ -39,7 +39,7 @@ environment:
     icon_url: ""
     image_version: 3.11.10
     os: linux
-    os_distro: debian
+    os_distro: ubuntu
     os_distro_release: "12"
     schema_version: v2
     user_info:
@@ -78,7 +78,7 @@ execution:
   - name: llm-server
     type: custom
     class: webapp
-    start_command: ollama serve &> $OLLAMA_LOGS
+    start_command: ollama pull $CAST_AI_LLM_MODEL && ollama serve &> $OLLAMA_LOGS
     health_check_command: pgrep -fl "ollama serve"
     stop_command: pkill -f "ollama serve"
     user_msg: ""
@@ -94,8 +94,8 @@ execution:
   - name: tts-server
     type: custom
     class: webapp
-    start_command: cd /project/code/tts-server && PROXY_PREFIX=$PROXY_PREFIX python3
-      app.py
+    start_command: "python3 -c \"from transformers import BarkModel;model = BarkModel.from_pretrained('suno/bark-small')\"
+      && \ncd /project/code/tts-server && PROXY_PREFIX=$PROXY_PREFIX python3 app.py"
     health_check_command: curl -f "http://localhost:8000/"
     stop_command: pkill -f '^python3 app.py'
     user_msg: ""
