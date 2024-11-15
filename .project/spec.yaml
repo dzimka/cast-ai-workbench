@@ -23,15 +23,15 @@ layout:
 environment:
   base:
     registry: docker.io
-    image: python:3.11-slim
-    build_timestamp: "20241113165652"
-    name: Python 3.11 [slim]
+    image: pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime
+    build_timestamp: ""
+    name: PyTorch [cuda12-runtime]
     supported_architectures: []
-    cuda_version: "12"
-    description: Base Python 3.11 bookworm slim image
+    cuda_version: "12.4"
+    description: Official PyTorch 2.5.1 with CUDA 12.4 runtime
     entrypoint_script: ""
     labels:
-    - debian
+    - ubuntu
     - python3
     apps: []
     programming_languages:
@@ -39,8 +39,8 @@ environment:
     icon_url: ""
     image_version: 3.11.10
     os: linux
-    os_distro: debian
-    os_distro_release: "12"
+    os_distro: ubuntu
+    os_distro_release: "22.04"
     schema_version: v2
     user_info:
       uid: ""
@@ -62,9 +62,9 @@ execution:
   - name: gradio-app
     type: custom
     class: webapp
-    start_command: cd /project/code && PROXY_PREFIX=$PROXY_PREFIX python3 app.py
+    start_command: python3 code/app.py
     health_check_command: curl -f "http://localhost:8080/"
-    stop_command: pkill -f '^python3 app.py'
+    stop_command: pkill -f '^python3 code/app.py'
     user_msg: ""
     logfile_path: ""
     timeout_seconds: 60
@@ -78,11 +78,11 @@ execution:
   - name: llm-server
     type: custom
     class: webapp
-    start_command: ollama serve &> $OLLAMA_LOGS
-    health_check_command: pgrep -fl "ollama serve"
-    stop_command: pkill -f "ollama serve"
+    start_command: ollama serve &> $OLLAMA_LOGS/ollama.log
+    health_check_command: curl -f "http://localhost:11434/"
+    stop_command: pkill -f '^ollama serve'
     user_msg: ""
-    logfile_path: ""
+    logfile_path: $OLLAMA_LOGS/ollama.log
     timeout_seconds: 60
     icon_url: ""
     webapp_options:
@@ -94,10 +94,9 @@ execution:
   - name: tts-server
     type: custom
     class: webapp
-    start_command: cd /project/code/tts-server && PROXY_PREFIX=$PROXY_PREFIX python3
-      app.py
-    health_check_command: curl -f "http://localhost:8000/"
-    stop_command: pkill -f '^python3 app.py'
+    start_command: /home/workbench/.local/bin/fastapi run code/tts-server/app.py
+    health_check_command: curl -f "http://localhost:8000/health"
+    stop_command: pkill -f "fastapi run code/tts-server/app.py"
     user_msg: ""
     logfile_path: ""
     timeout_seconds: 60
@@ -118,7 +117,3 @@ execution:
     target: /project/
     description: Project directory
     options: rw
-  - type: host
-    target: /data/
-    description: ""
-    options: ""

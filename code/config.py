@@ -11,9 +11,9 @@ class CastConfig:
     data_path: str
 
     def __init__(self, **kwargs):
-        self.llm_base_url = kwargs.get("llm_base_url", "http://jetson-nano:11434")
-        self.llm_model = kwargs.get("llm_model", "mistral")
-        self.tts_base_url = kwargs["tts_base_url", "http://jetson-nano:8000"]
+        self.llm_base_url = kwargs.get("llm_base_url", "http://localhost:11434")
+        self.llm_model = kwargs.get("llm_model", "llama3.2:1b")
+        self.tts_base_url = kwargs.get("tts_base_url", "http://localhost:8000")
         self.data_path = kwargs["data_path"]
 
     def get_llm(self) -> OllamaLLM:
