@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# git pull dzimka...
+container_name="project-cast-ai-workbench"
 
-source variables.env
-IMAGE_NAME=cast-ai-wb
+if docker ps | grep -q "$container_name"; then
+  echo "Container $container_name is running"
+else
+  echo "Container $container_name is not running!"
+  echo "Please start the project environment using the [Start Environment] button in AI Workbench."
+  exit 1
+fi
 
-# pre-fetch the required models
-# LLM: llama3.2:1b
-# ollama pull $CAST_AI_LLM_MODEL
+docker exec -t $container_name /bin/bash -c "/project/code/scripts/init-llm.sh"
 
-# TTS: SunoAI/Bark
-docker run --rm -it \
-    -e HF_HOME=$HF_HOME-e CAST_AI_TTS_MODEL=$CAST_AI_TTS_MODEL \
-    -v $(path):/project \
-    $IMAGE_NAME \
-    python3 -c "from transformers import BarkModel; model = BarkModel.from_pretrained('$CAST_AI_TTS_MODEL')"
+docker exec -t $container_name /bin/bash -c "/project/code/scripts/init-tts.sh"
+
+echo "All Done. You can run the applications now in the AI Workbench."

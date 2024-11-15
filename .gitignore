@@ -58,3 +58,5 @@ cover/
 data/scratch/*
 !data/scratch/.gitkeep
 models/
+logs/
+.secrets

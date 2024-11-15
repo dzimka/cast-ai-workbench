@@ -19,6 +19,11 @@ class TextRequest(BaseModel):
 app = FastAPI()
 
 
+@app.get("/health")
+async def health_check():
+    return {"status": "running"}
+
+
 @app.get("/tts", response_class=FileResponse)
 async def text_to_speech(request: TextRequest):
     """
